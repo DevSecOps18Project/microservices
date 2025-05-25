@@ -6,15 +6,21 @@ from database import db_session
 
 
 class BaseModel:
-    """User model."""
+    """Base model."""
 
     id = Column(Integer, primary_key=True)
 
-    def __init__(self):
-        pass
-
     def to_dict(self):
-        raise NotImplementedError('')
+        raise NotImplementedError(f'Please implement fhe function for {self.__class__.__name__}')
+
+    def create(self, commit=True):
+        db_session.add(self)
+        if commit:
+            db_session.commit()
+
+    def update(self, _: dict, commit=True):
+        if commit:
+            db_session.commit()
 
     def delete(self, commit=True):
         db_session.delete(self)
