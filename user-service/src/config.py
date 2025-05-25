@@ -19,5 +19,10 @@ class Config:
     @staticmethod
     def get_url():
         settings = Settings()
-        url = f'postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}'
+        user = settings.POSTGRES_USER
+        pw = settings.POSTGRES_PASSWORD
+        host = settings.POSTGRES_HOST
+        port = settings.POSTGRES_PORT
+        db_name = settings.POSTGRES_DB
+        url = f'postgresql://{user}:{pw}@{host}:{port}/{db_name}'
         return url
