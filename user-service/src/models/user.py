@@ -16,11 +16,18 @@ class User(BaseModel, Base):
     email = Column(String(100), nullable=False, unique=True)
     phone = Column(String(20), nullable=True)
 
-    def __init__(self, name, email, phone=None):
+    def __init__(self, data: dict):
         super().__init__()
-        self.name = name
-        self.email = email
-        self.phone = phone
+        self.name = data.get('name')
+        self.email = data.get('email')
+        self.phone = data.get('phone')
+
+    def update(self, data: dict, commit: bool = True):
+        # Update user fields if provided
+        for key in ['name', 'email', 'phone']:
+            if key in data:
+                setattr(self, key, data[key])
+        super().update(data)
 
     def to_dict(self):
         """Convert user to dictionary."""
