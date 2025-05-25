@@ -1,7 +1,6 @@
 """
 User controller functions for the User Service API
 """
-import logging
 from connexion import NoContent
 from sqlalchemy.exc import IntegrityError
 
