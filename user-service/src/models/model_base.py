@@ -23,10 +23,10 @@ class BaseModel:
 
     @classmethod
     def get_by_id(cls, id_: int):
-        user = cls.query.filter(cls.id == id_).first()
+        user = cls.query.filter(cls.id == id_).first()  # pylint: disable=E1101
         return user
 
     @classmethod
     def get_all(cls) -> list:
-        user_list = cls.query.all()
+        user_list = cls.query.all()  # pylint: disable=E1101
         return user_list

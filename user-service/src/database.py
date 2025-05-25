@@ -36,7 +36,7 @@ def init_db():
         logging.info(f'Attempt {attempt} of {MAX_RETRIES} to create database tables...')
         try:
             # Import models here to ensure they are registered properly on the metadata
-            from models import user
+            from models.user import User  # pylint: disable=C0415,W0611,R0401
 
             Base.metadata.create_all(bind=engine)
             logging.info('Database tables created successfully!')
