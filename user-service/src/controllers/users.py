@@ -3,11 +3,8 @@ User controller functions for the User Service API
 """
 import logging
 from connexion import NoContent
-from sqlalchemy.exc import IntegrityError
-
 import exceptions
 from controllers import tools
-from database import db_session
 from models.user import User
 
 LOG = logging
@@ -45,31 +42,25 @@ def user_get_by_id(id_: int):
 def user_create(body: dict):
     """Create a new user."""
     user = User(body)
-    try:
-        # Create new user
-        user.create()
+    if user.create():
         LOG.info('User %s was created successfully!', user.id)
         return user.to_dict()
 
-    except IntegrityError:
-        db_session.rollback()
-        LOG.error('User with email %s already exists.', user.email)
-        raise exceptions.UserEmailAlreadyExist(user.email)  # pylint: disable=W0707
+    LOG.error('User with email %s already exists.', user.email)
+    raise exceptions.UserEmailAlreadyExist(user.email)
 
 
 @tools.expected_errors(400, 404)
 def user_update(id_: int, body):
     """Update an existing user."""
     user = get_user_by_id(id_)
-    try:
-        user.update(body)
+
+    if user.update(body):
         LOG.info('User %s was updated successfully!', user.id)
         return user.to_dict()
 
-    except IntegrityError:
-        db_session.rollback()
-        LOG.info('User with email %s already exists.', user.email)
-        raise exceptions.UserEmailAlreadyExist(user.email)  # pylint: disable=W0707
+    LOG.info('User with email %s already exists.', user.email)
+    raise exceptions.UserEmailAlreadyExist(user.email)  # pylint: disable=W0707
 
 
 @tools.normal_response(204)
