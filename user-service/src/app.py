@@ -4,9 +4,11 @@ Main application entry point for User Service API
 """
 import os
 import logging
+import logging.config
 import connexion
 from flask_cors import CORS
 
+from my_config.logging_config import LOGGING_CONFIG
 from database import db_session, init_db
 
 # Create Connexion application instance
@@ -19,9 +21,8 @@ connex_app.add_api('./user-service.yaml', validate_responses=True, pythonic_para
 app = connex_app.app
 
 # Configure the application
-app.config.from_object('config.Config')
-app.logger.setLevel(logging.INFO)
-LOG = app.logger
+app.config.from_object('my_config.config.Config')
+logging.config.dictConfig(LOGGING_CONFIG)
 
 # Enable CORS
 CORS(app)

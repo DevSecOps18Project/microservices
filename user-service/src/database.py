@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import scoped_session, sessionmaker
 
-from config import Config
+from my_config.config import Config
 
 MAX_RETRIES = 10
 RETRY_DELAY = 2

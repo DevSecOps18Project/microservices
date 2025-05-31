@@ -1,14 +1,16 @@
 """
 User controller functions for the User Service API
 """
+import logging
 from connexion import NoContent
 from sqlalchemy.exc import IntegrityError
 
 import exceptions
-from app import LOG
 from controllers import tools
 from database import db_session
 from models.user import User
+
+LOG = logging
 
 
 def get_user_by_id(id_: int):
