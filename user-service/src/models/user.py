@@ -22,12 +22,12 @@ class User(BaseModel, Base):
         self.email = data.get('email')
         self.phone = data.get('phone')
 
-    def update(self, data: dict, commit: bool = True):
+    def update(self, data: dict, commit: bool = True) -> bool:
         # Update user fields if provided
         for key in ['name', 'email', 'phone']:
             if key in data:
                 setattr(self, key, data[key])
-        super().update(data)
+        return super().update(data)
 
     def to_dict(self):
         """Convert user to dictionary."""
